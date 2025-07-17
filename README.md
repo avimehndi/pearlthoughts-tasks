@@ -1,5 +1,5 @@
 
-<<<<<<< HEAD
+
 # Strapi-Pipeline-Masters
 Your local version
 =======
@@ -9,7 +9,7 @@ Remote version from origin/aviral-m
 Work in Your Own Branch
 =======
 =======
->>>>>>> 456c9e5 (Initial commit)
+
 # ✅ Contribution Rules
 
 1. **Work in Your Own Branch**  
@@ -32,7 +32,4 @@ For any issues or questions, feel free to reach out on Teams.
 4. **Need Help?**  
    - For any issues or questions, feel free to reach out on Teams.
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 456c9e5 (Initial commit)
