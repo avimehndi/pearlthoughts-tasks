@@ -12,7 +12,6 @@ variable "aws_access_key" {
 variable "aws_secret_key" {
   description = "Your AWS Secret Key"
   type        = string
-  
 }
 
 variable "instance_type" {

@@ -4,4 +4,4 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::blogpost.blogpost' as const);
+export default factories.createCoreService('api::blogpost.blogpost');
