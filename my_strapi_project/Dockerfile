@@ -1,17 +1,17 @@
-FROM node:20
-
-# Set working directory
+# Stage 1: Build
+FROM node:18 AS builder
 WORKDIR /app
-
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
-
-# Copy the rest of the app
 COPY . .
+RUN npm run build
 
-# Expose Strapi default port
+
+# Stage 2: Production
+FROM node:18-slim AS runner
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --omit=dev && npm install sqlite3
+COPY --from=builder /app ./
 EXPOSE 1337
-
-# Run Strapi in development mode
-CMD ["npm", "run", "develop"]
+CMD ["npm", "start"]
