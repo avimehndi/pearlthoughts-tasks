@@ -13,5 +13,5 @@ COPY . .
 # Expose Strapi default port
 EXPOSE 1337
 
-# Run Strapi in development mode
-CMD ["npm", "run", "develop"]
+# Run Strapi in production mode
+CMD ["npm", "run", "start"]
