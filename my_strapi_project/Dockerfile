@@ -1,20 +1,21 @@
-FROM node:20
-
-# Set working directory
+# Stage 1: Build
+FROM node:18 AS builder
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the app
 COPY . .
-
-# Build the app (this is the missing part)
 RUN npm run build
 
-# Expose Strapi port
-EXPOSE 1337
+# Stage 2: Production
+FROM node:18-slim AS runner
+WORKDIR /app
 
-# Start in production mode
-CMD ["npm", "run", "start"]
+COPY package*.json package-lock.json ./
+RUN npm install --omit=dev && npm install sqlite3
+
+COPY --from=builder /app ./
+
+EXPOSE 1337
+CMD ["npm", "start"]
