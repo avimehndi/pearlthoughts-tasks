@@ -20,7 +20,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "strapi_sg" {
-  name_prefix = "strapi-sg-"
+  name_prefix = "strapi-sg-Aviral"
   description = "Allow inbound Strapi and SSH"
 
   ingress {
@@ -45,24 +45,20 @@ resource "aws_security_group" "strapi_sg" {
   }
 }
 
-data "template_file" "user_data" {
-  template = file("${path.module}/user-data.sh")
-  vars = {
-    docker_tag = var.docker_image_tag
-  }
-}
-
 resource "aws_instance" "strapi_ec2" {
   ami                         = data.aws_ami.ubuntu_jammy.id
   instance_type               = var.instance_type
   key_name                    = var.key_name
   associate_public_ip_address = true
 
+  user_data = templatefile("${path.module}/user-data.sh", {
+    docker_tag = var.docker_image_tag
+  })
 
   vpc_security_group_ids = [aws_security_group.strapi_sg.id]
 
   tags = {
-    Name = "EC2-Aviral-Mehndiratta" 
+    Name = "EC2-Aviral-Mehndiratta"
   }
 }
 

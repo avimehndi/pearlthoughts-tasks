@@ -30,7 +30,7 @@ variable "instance_type" {
 variable "key_name" {
   description = "Name of the EC2 key pair"
   type        = string
-  default     = "strapi-keypair-rohana-upadhyay"
+  default     = "my-key-aviral"
 }
 
 variable "docker_image_tag" {
