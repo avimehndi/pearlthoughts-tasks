@@ -8,10 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     env:
       IMAGE_NAME: avimehndi/strapi-app
-
+    
+    outputs:
+      image_tag: ${{ steps.tag.outputs.tag }}
+      full_image: ${{ steps.tag.outputs.full_image }}
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -27,7 +31,10 @@ jobs:
 
       - name: Generate Docker Tag
         id: tag
-        run: echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          TAG=$(git rev-parse --short HEAD)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "full_image=${{ env.IMAGE_NAME }}:$TAG" >> $GITHUB_OUTPUT
 
       - name: Build & Push Image
         uses: docker/build-push-action@v5
@@ -36,11 +43,11 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
 
-      - name: Save full docker image as artifact (for Terraform)
-        run: echo "${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}" > docker_image.txt
+      - name: Save Docker image tag as artifact
+        run: echo "${{ steps.tag.outputs.tag }}" > docker_tag.txt
 
-      - name: Upload Docker Image Artifact
+      - name: Upload Docker Tag Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image
-          path: docker_image.txt
+          name: docker-tag
+          path: docker_tag.txt
