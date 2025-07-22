@@ -17,3 +17,9 @@ variable "docker_image" {
   description = "Docker image name to pull and run"
   type        = string
 }
+
+variable "docker_image_tag" {
+  description = "Docker image tag (from CI pipeline)"
+  type        = string
+  default     = "latest"
+} 
