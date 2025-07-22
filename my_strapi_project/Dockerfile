@@ -1,22 +1,24 @@
-# Stage 1: Build
-FROM node:20 AS builder
+FROM node:20-alpine
+
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+# Optionally, install OS build tools if needed
+RUN apk add --no-cache build-base python3
 
-# Stage 2: Production
-FROM node:20 AS runner
-WORKDIR /app
+# Copy dependency management files
+COPY package.json package-lock.json ./
 
-COPY package*.json package-lock.json ./
+# Install production dependencies
 RUN npm install --omit=dev
 
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/public ./public
+# Copy the source code
+COPY . .
 
+# Build the Strapi Admin panel using npx
+RUN npx strapi build
+
+# Expose Strapi port
 EXPOSE 1337
-CMD ["npm", "start"]
+
+# Start Strapi using npx
+CMD ["npx", "strapi", "start"]
