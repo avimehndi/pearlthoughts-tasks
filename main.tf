@@ -1,59 +1,70 @@
-provider "aws" {
-  region = var.region
+data "aws_ami" "ubuntu_jammy" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 }
 
-# Security Group allowing SSH and HTTP (port 80 -> Strapi on 1337)
+provider "aws" {
+  region     = var.aws_region
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+}
+
 resource "aws_security_group" "strapi_sg" {
-  name        = "strapi-sg-aviral"
-  description = "Allow SSH and HTTP access to Strapi"
+  name_prefix = "strapi-sg-"
+  description = "Allow inbound Strapi and SSH"
 
   ingress {
-    description = "Allow SSH"
+    from_port   = 1337
+    to_port     = 1337
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    description = "Allow HTTP access to Strapi"
-    from_port   = 80
-    to_port     = 1337
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   egress {
-    description = "Allow all outbound"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-    tags = {
-        Name = "strapi-sg-aviral"
-    }
-
 }
 
-# Load user_data with image injected
-data "template_file" "user_data" {
-  template = file("${path.module}/user_data.sh")
-
-  vars = {
-    docker_image = var.docker_image
-  }
-}
-
-# EC2 instance running Dockerized Strapi
 resource "aws_instance" "strapi_ec2" {
-  ami                    = "ami-0b05d988257befbbe" # Ubuntu 22.04 (for us-east-2)
-  instance_type          = var.instance_type
-  key_name               = var.key_name
-  user_data              = data.template_file.user_data.rendered
+  ami                         = data.aws_ami.ubuntu_jammy.id
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
+  associate_public_ip_address = true
+
+  user_data = templatefile("${path.module}/user-data.sh", {
+    docker_tag = var.docker_image_tag
+  })
+
   vpc_security_group_ids = [aws_security_group.strapi_sg.id]
 
   tags = {
-    Name = "strapi-ec2-instance-aviral"
+    Name = "EC2-Aviral-Mehndiratta" 
   }
 }
+
+output "ec2_public_ip" {
+  description = "Public IP of the deployed EC2 instance"
+  value       = aws_instance.strapi_ec2.public_ip
+}
+
+
