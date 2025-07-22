@@ -47,7 +47,7 @@ data "template_file" "user_data" {
 
 # EC2 instance running Dockerized Strapi
 resource "aws_instance" "strapi_ec2" {
-  ami                    = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 (for us-east-2)
+  ami                    = "ami-0b05d988257befbbe" # Ubuntu 22.04 (for us-east-2)
   instance_type          = var.instance_type
   key_name               = var.key_name
   user_data              = data.template_file.user_data.rendered
