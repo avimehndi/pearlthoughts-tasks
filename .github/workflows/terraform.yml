@@ -16,7 +16,7 @@ jobs:
         with:
           workflow: ci.yml
           workflow_conclusion: success
-          name: image-tag
+          name: docker-tag
           path: ./tag
 
       - name: Read Docker Tag
