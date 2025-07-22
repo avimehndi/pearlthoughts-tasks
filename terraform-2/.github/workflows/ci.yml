@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: brohan9/strapi-app
+      IMAGE_NAME: avimehndi/strapi-app
 
     steps:
       - name: Checkout Code
