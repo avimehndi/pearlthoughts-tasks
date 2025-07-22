@@ -56,7 +56,7 @@ resource "aws_instance" "strapi_ec2" {
 
   vpc_security_group_ids = [aws_security_group.strapi_sg.id]
 
-  user_data = templatefile("${path.module}/user-data.sh", {
+  user_data = templatefile("${path.module}/user_data.sh", {
     docker_tag = var.docker_image_tag
   })
 
