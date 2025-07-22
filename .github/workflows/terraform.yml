@@ -16,14 +16,16 @@ jobs:
         with:
           workflow: ci.yml
           workflow_conclusion: success
-          name: docker-tag
+          name: docker-tag          # ← match the actual uploaded artifact name
           path: ./tag
 
       - name: Read Docker Tag
         id: tag
         run: |
-          TAG=$(cat ./tag/tag.txt)
+          TAG=$(cat ./tag/docker_tag.txt)  # ← match the actual file name
           echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
