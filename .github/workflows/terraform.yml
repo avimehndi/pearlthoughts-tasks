@@ -22,7 +22,7 @@ jobs:
       - name: Read Docker Tag
         id: tag
         run: |
-          TAG=$(cat ./tag/image-tag.txt)  # ← match the actual file name
+          TAG=$(cat ./tag/tag.txt)  # ← match the actual file name
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
 
