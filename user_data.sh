@@ -11,7 +11,7 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 echo ">>> Pulling Strapi Docker image"
-sudo docker pull brohan9/strapi-app:${docker_tag}
+sudo docker pull avimehndi/strapi-app:${docker_tag}
 
 echo ">>> Removing old Strapi container if exists"
 sudo docker rm -f strapi || true
