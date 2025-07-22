@@ -16,15 +16,14 @@ jobs:
         with:
           workflow: ci.yml
           workflow_conclusion: success
-          name: docker-tag          # ← match the actual uploaded artifact name
+          name: docker-tag
           path: ./tag
 
       - name: Read Docker Tag
         id: tag
         run: |
-          TAG=$(cat ./tag/docker_tag.txt)  # ← match the actual file name
+          TAG=$(cat ./tag/docker_tag.txt)
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -35,12 +34,15 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan \
+            -var="docker_image=avimehndi/strapi-app" \
             -var="docker_image_tag=${{ steps.tag.outputs.tag }}" \
             -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
             -var="aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
       - name: Terraform Apply
         run: |
           terraform apply -auto-approve \
+            -var="docker_image=avimehndi/strapi-app" \
             -var="docker_image_tag=${{ steps.tag.outputs.tag }}" \
             -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
             -var="aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
