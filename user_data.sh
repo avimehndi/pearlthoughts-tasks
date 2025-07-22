@@ -33,6 +33,8 @@ sudo docker run -d \
   -e API_TOKEN_SALT="$API_TOKEN_SALT" \
   -e ADMIN_JWT_SECRET="$ADMIN_JWT_SECRET" \
   -e JWT_SECRET="$JWT_SECRET" \
+  -e HOST=0.0.0.0 \
+  -e NODE_ENV=production \
   avimehndi/strapi-app:${docker_tag}
 
 echo ">>> Done setting up Strapi"

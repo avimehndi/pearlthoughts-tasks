@@ -14,4 +14,6 @@ COPY . .
 EXPOSE 1337
 
 # Run Strapi in production mode
+ENV HOST=0.0.0.0
+ENV NODE_ENV=production
 CMD ["npm", "run", "start"]
