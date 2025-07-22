@@ -4,4 +4,4 @@
 
 import { factories } from '@strapi/strapi'
 
-export default factories.createCoreController('api::blogpost.blogpost');
+export default factories.createCoreController('api::blogpost.blogpost' as const);
