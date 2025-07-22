@@ -51,7 +51,7 @@ resource "aws_instance" "strapi_ec2" {
   key_name                    = var.key_name
   associate_public_ip_address = true
 
-  user_data = templatefile("${path.module}/user-data.sh", {
+  user_data = templatefile("${path.module}/user_data.sh", {
     docker_tag = var.docker_image_tag
   })
 
