@@ -10,10 +10,11 @@ RUN npm install
 # Copy the rest of the app
 COPY . .
 
-# Expose Strapi default port
+# Build the app (this is the missing part)
+RUN npm run build
+
+# Expose Strapi port
 EXPOSE 1337
 
-# Run Strapi in production mode
-ENV HOST=0.0.0.0
-ENV NODE_ENV=production
+# Start in production mode
 CMD ["npm", "run", "start"]
