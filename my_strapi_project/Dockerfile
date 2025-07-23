@@ -14,11 +14,12 @@ RUN npm install --omit=dev
 # Copy the source code
 COPY . .
 
+# Expose Strapi port
+EXPOSE 1337
+
 # Build the Strapi Admin panel using npx
 RUN npx strapi build
 
-# Expose Strapi port
-EXPOSE 1337
 
 # Start Strapi using npx
 CMD ["npx", "strapi", "start"]
