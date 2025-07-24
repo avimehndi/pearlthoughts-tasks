@@ -1,5 +1,5 @@
 ############################
-# OS X
+# macOS
 ############################
 
 .DS_Store
@@ -10,13 +10,11 @@ Icon
 .Trashes
 ._*
 
-
 ############################
 # Linux
 ############################
 
 *~
-
 
 ############################
 # Windows
@@ -31,9 +29,8 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
-
 ############################
-# Packages
+# Common Package Formats
 ############################
 
 *.7z
@@ -51,54 +48,53 @@ $RECYCLE.BIN/
 *.dll
 *.exe
 *.o
+*.out
+*.pid
 *.seed
 *.so
 *.swo
 *.swp
 *.swn
 *.swm
-*.out
-*.pid
-
 
 ############################
-# Logs and databases
+# Logs and Databases
 ############################
 
-.tmp
 *.log
 *.sql
 *.sqlite
 *.sqlite3
-
+*.tmp
 
 ############################
-# Misc.
+# IDEs and Editors
 ############################
 
-*#
-ssl
-.idea
-nbproject
-public/uploads/*
-!public/uploads/.gitkeep
-.tsbuildinfo
+.idea/
+.vscode/
+nbproject/
+*.tsbuildinfo
 .eslintcache
+.node_history
 
 ############################
 # Node.js
 ############################
 
-lib-cov
+node_modules/
+lib-cov/
 lcov.info
-pids
-logs
-results
-node_modules
-.node_history
+pids/
+logs/
+results/
+dist/
+build/
+coverage/
+yarn-error.log
 
 ############################
-# Package managers
+# Yarn (Berry)
 ############################
 
 .yarn/*
@@ -109,34 +105,18 @@ node_modules
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
-yarn-error.log
-
-############################
-# Tests
-############################
-
-coverage
 
 ############################
 # Strapi
 ############################
 
 .env
-license.txt
-exports
-.strapi
-dist
-build
+exports/
+public/uploads/*
+!public/uploads/.gitkeep
+.strapi/
 .strapi-updater.json
-
-############################
-# Terraform
-############################
-
-*.tfstate
-*.tfstate.backup
-.terraform/
-terraform.tfvars
+license.txt
 
 ############################
 # Docker
@@ -145,11 +125,21 @@ terraform.tfvars
 *.tar
 *.img
 .dockerignore
-Dockerfile
 docker-compose.yml
 
 ############################
-# VSCode
+# Terraform
 ############################
 
-.vscode/
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+tfplan
+
+############################
+# Git
+############################
+
+*.orig
