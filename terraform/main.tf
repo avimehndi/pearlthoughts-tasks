@@ -28,8 +28,8 @@ resource "aws_security_group" "aviral_sg" {
 
   ingress {
     description = "Allow HTTPS"
-    from_port   = 443
-    to_port     = 443
+    from_port   = 1337
+    to_port     = 1337
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
