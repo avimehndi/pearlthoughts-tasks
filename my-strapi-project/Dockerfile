@@ -1,29 +1,31 @@
-FROM node:18-alpine
+# === Build stage ===
+FROM node:20-alpine as build
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files and install dependencies
+COPY package.json yarn.lock ./
+RUN yarn install
 
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy source code
+# Copy all files and build admin panel
 COPY . .
+RUN yarn build
 
-# Set environment to production
-ENV NODE_ENV=production
+# === Production stage ===
+FROM node:20-alpine as production
 
-# Build the application
-RUN npm run build
+# Set working directory
+WORKDIR /app
 
-# Expose port
+# Copy only necessary files from build
+COPY --from=build /app ./
+
+# Install only production dependencies
+RUN yarn install --production
+
+# Expose Strapi port
 EXPOSE 1337
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:1337/_health || exit 1
-
-# Start the application
-CMD ["npm", "start"]
+# Start Strapi
+CMD ["yarn", "start"]
