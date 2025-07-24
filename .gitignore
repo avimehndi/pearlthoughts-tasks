@@ -135,7 +135,7 @@ docker-compose.yml
 *.tfstate.backup
 .terraform/
 .terraform.lock.hcl
-terraform.tfvars
+../terraform.tfvars
 tfplan
 
 ############################
@@ -143,3 +143,26 @@ tfplan
 ############################
 
 *.orig
+
+
+# Ignore everything in my-strapi-project
+/my-strapi-project/*
+
+# But do not ignore the Dockerfile
+!/my-strapi-project/Dockerfile
+
+# Terraform state and sensitive files
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform/terraform.tfvars
+terraform.tfvars.backup
+
+# Node.js junk
+my-strapi-project/node_modules/
+my-strapi-project/build/
+my-strapi-project/.cache/
+my-strapi-project/.env
+my-strapi-project/.env.*.local
+my-strapi-project/npm-debug.log
+my-strapi-project/yarn-error.log
